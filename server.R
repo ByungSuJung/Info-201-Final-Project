@@ -40,7 +40,8 @@ shinyServer(function(input, output) {
                  mode = 'markers',
                  x = ~get(input$xaxis),
                  y = ~get(input$yaxis),
-                 color = ~get(input$categorize)
+                 color = ~get(input$categorize),
+                 text = ~filtered.data$full_name
             ) %>% 
       
       add_trace(data = filtered.data, x = ~get(input$xaxis), y = ~fitted(fit), mode = 'lines', color = NULL, name = "Linear Regression") %>% 
