@@ -8,7 +8,7 @@ library(plotly)
 raw.data <- read.csv("./Data/complete.csv", stringsAsFactors = FALSE, encoding = 'UTF-8')
 
 # Changing the column names to be more user friendly
-raw.data <- rename(raw.data, c("club"="Club", "age"="Age", "league"="League", "height_cm"="Height(cm)",
+raw.data <- plyr::rename(raw.data, c("club"="Club", "age"="Age", "league"="League", "height_cm"="Height(cm)",
                                "weight_kg"="Weight(kg)", "eur_value"="Value(EUR)","eur_wage"="Wage(EUR)",
                                "eur_release_clause"="Release Clause(EUR)", "overall"="Overall", "potential"
                                ="Potential", "pac"="Pace", "sho"="Shooting", "pas"="Passing", "dri"="Dribbling",
