@@ -4,6 +4,7 @@ library(dplyr)
 library(tidyr)
 library(plotly)
 library(rvest)
+library(DT)
 
 # Setting working directory
 setwd("~/Info-201-Final-Project")
@@ -14,25 +15,62 @@ players.rating.70 <- filter(soccer.data, overall > 70)
 league.data <- group_by(players.rating.70, league) %>% 
              summarize(number.players = n(),mean.age = mean(age), mean.rating = mean(overall), median.rating = median(overall))
 
-# Premier league data
-premier.league <- filter(soccer.data, grepl("English Premier League", league))
+# 7 Leagues
+seven.leagues <- c("English Premier League", "USA Major League Soccer", "French Ligue 1", "Italian Serie A", "German Bundesliga", "Spanish Primera División",
+                 "Mexican Liga MX")
+seven.leagues.data <- filter(soccer.data, league %in% seven.leagues)
+seven.leagues.body.types <- seven.leagues.data %>% group_by(league) %>% 
+                           summarize(percent.lean = round(mean(grepl("Lean", body_type)) * 100, digits = 2), percent.normal = round(mean(grepl("Normal", body_type)) * 100, digits = 2), 
+                                     mean.stocky = round(mean(grepl("Stocky", body_type)), digits = 2))
 
-# Teams
-premier.top.6.teams <- c("Chelsea", "Tottenham Hotspur", "Manchester City", "Liverpool", "Arsenal", "Manchester United")
-premier.top.6.teams.players <- filter(soccer.data, club %in% premier.top.6.teams)
-premier.team.body.types <- premier.top.6.teams.players %>% group_by(club) %>% 
-                           summarize(amount.lean = sum(grepl("Lean", body_type)), amount.normal = sum(grepl("Normal", body_type)), 
-                                     amount.stocky = sum(grepl("Stocky", body_type)))
+# Function for finding leagues
+Find2016LeagueData <- function(league.name, not.current.teams){
+  full.league <- filter(soccer.data, league == league.name) %>% 
+    group_by(club) %>% summarize(amount.players = n())
+  last.season.full.league <- full.league[!full.league$club %in% not.current.teams,]
+  return (last.season.full.league)
+}
 
-# determining accuracy
-goal.keepers <- filter(soccer.data, is.na(rs))
-url <- "https://www.premierleague.com/stats/top/players/clean_sheet"
-premier.stats <- read_html(url) %>% 
-                 html_nodes("table") %>% 
-                 head()
-                 #html_nodes(xpath='//*[@id="mainContent"]/div[2]/div/div[2]/div[1]/div[2]/table') %>% 
-                 #html_table()
+# Britain
+not.current.british.teams <- c("Brighton & Hove Albion", "Huddersfield Town", "Newcastle United")
+britain.last.season <- Find2016LeagueData("English Premier League", not.current.british.teams)
+britain.wins <- read.csv("Data/premier2016-2017.csv", stringsAsFactors = FALSE)
+britain.full <- left_join(britain.last.season, britain.wins)
+
+# USA
+not.current.usa.teams <- c("Minnesota United","Atlanta United FC")
+usa.last.season <- Find2016LeagueData("USA Major League Soccer", not.current.usa.teams)
+usa.wins <- read.csv("Data/MLS2016-2017.csv", stringsAsFactors = FALSE)
+usa.full <- left_join(usa.last.season, usa.wins)
+
+# France
+not.current.french.teams <- c("Amiens SC Football", "ES Troyes AC", "RC Strasbourg")
+french.last.season <- Find2016LeagueData("French Ligue 1", not.current.french.teams)
+french.wins <- read.csv("Data/ligue12016-2017.csv", stringsAsFactors = FALSE)
+french.full <- left_join(french.last.season, french.wins)
+
+# Italy
+not.current.italy.teams <- c("Benevento Calcio", "Ferrara (SPAL)", "Hellas Verona")
+italy.last.season <- Find2016LeagueData("Italian Serie A", not.current.italy.teams)
+italy.wins <- read.csv("Data/serieA2016-2017.csv", stringsAsFactors = FALSE)
+italy.full <- left_join(italy.last.season, italy.wins)
+
+# German
+not.current.german.teams <- c("Hannover 96", "VfB Stuttgart")
+germany.last.season <- Find2016LeagueData("German Bundesliga", not.current.german.teams)
+germany.wins <- read.csv("Data/bundesliga2016-2017.csv", stringsAsFactors = FALSE)
+germany.full <- left_join(germany.last.season, germany.wins)
+
+# Spain
+not.current.spain.teams <- c("Getafe CF", "Girona CF", "Levante UD")
+spain.last.season <- Find2016LeagueData("Spanish Primera División", not.current.spain.teams)
+spain.wins <- read.csv("Data/laliga2016-2017.csv", stringsAsFactors = FALSE)
+spain.full <- left_join(spain.last.season, spain.wins)
+
+# Mexico
+not.current.mexico.teams <- c("Lobos de la BUAP")
+mexico.last.season <- Find2016LeagueData("Mexican Liga MX", not.current.mexico.teams)
+mexico.wins <- read.csv("Data/ligaMXclausura2016-2017.csv", stringsAsFactors = FALSE)
+mexico.full <- left_join(mexico.last.season, mexico.wins)
 
 
-min.overall <- filter(soccer.data, overall >= 90) %>% 
-               filter(eur_wage > 500000)
