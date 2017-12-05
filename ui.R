@@ -17,7 +17,7 @@ shinyUI(fluidPage(
   
   sidebarPanel(
     width = 2,
-    selectInput("Overall", "Select minimum overall stat of the players",
+    selectInput("Overall", "Select minimum overall rating of the players",
                 choices = list("90","80","70","60"),
                 selected = "90"),
     
