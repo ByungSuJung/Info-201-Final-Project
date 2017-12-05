@@ -5,7 +5,7 @@ shinyUI(fluidPage(
   
   titlePanel("TITLE"),
   
-  p("description"),
+  p("Use this plot to measure two variables of your choosing from the FIFA 18 player database"),
 
   mainPanel(
     
@@ -17,20 +17,20 @@ shinyUI(fluidPage(
   
   sidebarPanel(
     width = 2,
-    selectInput("overall", "Select minimum overall stat of the players",
+    selectInput("Overall", "Select minimum overall rating of the players",
                 choices = list("90","80","70","60"),
                 selected = "90"),
     
     selectInput("xaxis", "Select X-axis",
                 choices = numeric.col.names,
-                selected = "age"),
+                selected = "Age"),
     
     selectInput("yaxis", "Select Y-axis",
                 choices = numeric.col.names,
-                selected = "eur_wage"),
+                selected = "Wage(EUR)"),
     selectInput("categorize", "Categorize by",
-                choices = c("league","club"),
-                selected = "league")
+                choices = c("League","Club"),
+                selected = "League")
     
   )
 ))
