@@ -72,7 +72,7 @@ shinyServer(function(input, output) {
       
       add_trace(data = filtered.data, x = ~get(input$xaxis), y = ~fitted(fit), mode = 'lines', color = NULL, name = "Linear Regression") %>% 
       
-      layout(title = paste0(input$xaxis, " V.S ", input$yaxis),
+      layout(title = paste0(input$xaxis, " VS. ", input$yaxis),
              xaxis = list(title = input$xaxis),
              yaxis = list(title = input$yaxis)
       )
