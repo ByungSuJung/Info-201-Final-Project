@@ -5,7 +5,7 @@ shinyUI(fluidPage(
   
   titlePanel("TITLE"),
   
-  p("description"),
+  p("Use this plot to measure two variables of your choosing from the FIFA 18 player database"),
 
   mainPanel(
     
