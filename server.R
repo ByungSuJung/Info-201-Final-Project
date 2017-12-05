@@ -1,6 +1,6 @@
 library(shiny)
 library(dplyr)
-library(plyr)
+
 library(plotly)
 
 # Read the csv file of FIFA 2018 soccer player dataset
