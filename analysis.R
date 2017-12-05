@@ -63,4 +63,26 @@ mexico.last.season <- Find2016LeagueData("Mexican Liga MX", not.current.mexico.t
 mexico.wins <- read.csv("Data/ligaMXclausura2016-2017.csv", stringsAsFactors = FALSE)
 mexico.full <- left_join(mexico.last.season, mexico.wins)
 
+# Prep for graphs
 
+## Changing column names for all graphs
+new.column.names <- c("Clubs","Number of Players", "Median Overall Rating", "Median Potential Rating", "Median Physical Rating", "Average International Reputation Rating",
+                      "Median Agility Rating", "Median Aggression Rating", "Median Stamina Rating", "Median Composure Rating", "Games Played", "Wins","Draws",
+                      "Losses", "Goals For", "Goals Against", "Difference in Goals", "Total Points Scored")
+colnames(britain.full) <- new.column.names
+colnames(french.full) <- new.column.names
+colnames(germany.full) <- new.column.names
+colnames(italy.full) <- new.column.names
+colnames(mexico.full) <- new.column.names
+colnames(spain.full) <- new.column.names
+colnames(usa.full) <- new.column.names
+
+## Leagues
+league.choices <- c("English Premier League","USA Major League Soccer","French Ligue 1","Italian Serie A","German Bundesliga",
+                    "Spanish Primera División","Mexican Liga MX")
+
+## X Axis
+teams.x.axis <- c("Games.Played", "Wins", "Draws", "Losses", "Goals.For", "Goals.Against", "Goal.Difference", "Points")
+
+## Y Axis
+teams.y.axis <- c("")

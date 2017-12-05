@@ -3,12 +3,10 @@ library(plyr)
 library(dplyr)
 
 library(plotly)
-
-# Read the csv file of FIFA 2018 soccer player dataset
-raw.data <- read.csv("./Data/complete.csv", stringsAsFactors = FALSE, encoding = 'UTF-8')
+source("analysis.R")
 
 # Changing the column names to be more user friendly
-raw.data <- plyr::rename(raw.data, c("club"="Club", "age"="Age", "league"="League", "height_cm"="Height(cm)",
+soccer.data <- plyr::rename(soccer.data, c("club"="Club", "age"="Age", "league"="League", "height_cm"="Height(cm)",
                                "weight_kg"="Weight(kg)", "eur_value"="Value(EUR)","eur_wage"="Wage(EUR)",
                                "eur_release_clause"="Release Clause(EUR)", "overall"="Overall", "potential"
                                ="Potential", "pac"="Pace", "sho"="Shooting", "pas"="Passing", "dri"="Dribbling",
@@ -34,15 +32,15 @@ raw.data <- plyr::rename(raw.data, c("club"="Club", "age"="Age", "league"="Leagu
                                "ldm"="Left Defensive Midfielder", "lcb"="Left Center Back", "gk"="Goalkeeper"))
 
 # Name of positions
-positions <- select(raw.data, contains("prefers_")) %>% 
+positions <- select(soccer.data, contains("prefers_")) %>% 
   colnames()
 
 # Column names with numerical data in raw.data
-raw.numerical.col.names <- raw.data %>% 
+raw.numerical.col.names <- soccer.data %>% 
   select_if(is.numeric) %>% 
   colnames()
 
-numeric.col.names <- raw.numerical.col.names[-c(1,2)]
+numeric.col.names <- raw.numerical.col.names[-c(1,2,8,14)]
 
 
 # Shiny server
@@ -50,7 +48,7 @@ shinyServer(function(input, output) {
   output$playerPlot <- renderPlotly({
 
     # Filter the FIFA 2018 player data by overall
-    filtered.data <-  filter(raw.data, Overall >= as.numeric(input$Overall))
+    filtered.data <-  filter(soccer.data, Overall >= as.numeric(input$Overall))
     
     # Create Linear Regression 
     fit <- lm(filtered.data, formula = get(input$yaxis) ~ get(input$xaxis))
@@ -78,5 +76,7 @@ shinyServer(function(input, output) {
              yaxis = list(title = input$yaxis)
       )
   })
-  
+  output$teamPlot <- renderPlotly({
+    
+  })
 })
