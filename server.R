@@ -51,5 +51,5 @@ shinyServer(function(input, output) {
              yaxis = list(title = input$yaxis)
       )
   })
-
+  
 })
