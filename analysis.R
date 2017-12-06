@@ -10,23 +10,13 @@ library(DT)
 setwd("~/Info-201-Final-Project")
 soccer.data <- read.csv("Data/complete.csv", stringsAsFactors = FALSE, encoding = "UTF-8")
 
-# Group by teams
-players.rating.70 <- filter(soccer.data, overall > 70)
-league.data <- group_by(players.rating.70, league) %>% 
-             summarize(number.players = n(),mean.age = mean(age), mean.rating = mean(overall), median.rating = median(overall))
-
-# 7 Leagues
-seven.leagues <- c("English Premier League", "USA Major League Soccer", "French Ligue 1", "Italian Serie A", "German Bundesliga", "Spanish Primera División",
-                 "Mexican Liga MX")
-seven.leagues.data <- filter(soccer.data, league %in% seven.leagues)
-seven.leagues.body.types <- seven.leagues.data %>% group_by(league) %>% 
-                           summarize(percent.lean = round(mean(grepl("Lean", body_type)) * 100, digits = 2), percent.normal = round(mean(grepl("Normal", body_type)) * 100, digits = 2), 
-                                     mean.stocky = round(mean(grepl("Stocky", body_type)), digits = 2))
 
 # Function for finding leagues
 Find2016LeagueData <- function(league.name, not.current.teams){
   full.league <- filter(soccer.data, league == league.name) %>% 
-    group_by(club) %>% summarize(amount.players = n())
+    group_by(club) %>% summarize(amount.players = n(), median.overall = median(overall), median.potential = median(potential), 
+                                 median.physical = median(phy), average.int.rep = mean(international_reputation), median.agility = median(agility),
+                                 median.aggression = median(aggression), median.stamina = median(stamina), median.composure = median(composure))
   last.season.full.league <- full.league[!full.league$club %in% not.current.teams,]
   return (last.season.full.league)
 }
@@ -73,4 +63,26 @@ mexico.last.season <- Find2016LeagueData("Mexican Liga MX", not.current.mexico.t
 mexico.wins <- read.csv("Data/ligaMXclausura2016-2017.csv", stringsAsFactors = FALSE)
 mexico.full <- left_join(mexico.last.season, mexico.wins)
 
+# Prep for graphs
 
+## Changing column names for all graphs
+new.column.names <- c("Clubs","Number of Players", "Median Overall Rating", "Median Potential Rating", "Median Physical Rating", "Average International Reputation Rating",
+                      "Median Agility Rating", "Median Aggression Rating", "Median Stamina Rating", "Median Composure Rating", "Games Played", "Wins","Draws",
+                      "Losses", "Goals For", "Goals Against", "Difference in Goals", "Total Points Scored")
+colnames(britain.full) <- new.column.names
+colnames(french.full) <- new.column.names
+colnames(germany.full) <- new.column.names
+colnames(italy.full) <- new.column.names
+colnames(mexico.full) <- new.column.names
+colnames(spain.full) <- new.column.names
+colnames(usa.full) <- new.column.names
+
+## Leagues
+league.choices <- c("English Premier League","USA Major League Soccer","French Ligue 1","Italian Serie A","German Bundesliga",
+                    "Spanish Primera División","Mexican Liga MX")
+
+## X Axis
+teams.x.axis <- c("Games.Played", "Wins", "Draws", "Losses", "Goals.For", "Goals.Against", "Goal.Difference", "Points")
+
+## Y Axis
+teams.y.axis <- c("")
