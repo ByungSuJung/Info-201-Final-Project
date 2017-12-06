@@ -7,19 +7,20 @@ my.ui <- fluidPage(
   tabsetPanel(type = "tabs",
               tabPanel("Plot", fluid = TRUE,
                        sidebarPanel(
-                         width = 2,
-                         selectInput("Overall", "Select minimum overall rating of the players",
-                                     choices = list("90","80","70","60"),
-                                     selected = "90"),
+                         width = 4,
+                         sliderInput("Overall", label = h3("Overall"), min = 0, 
+                                     max = 100, value = 90),
+
                          
-                         selectInput("xaxis", "Select X-axis",
+                         selectInput("xaxis", label = h3("Select X-axis"),
                                      choices = numeric.col.names,
                                      selected = "Age"),
                          
-                         selectInput("yaxis", "Select Y-axis",
+                         selectInput("yaxis", h3("Select Y-axis"),
                                      choices = numeric.col.names,
                                      selected = "Wage(EUR)"),
-                         selectInput("categorize", "Categorize by",
+                         
+                         selectInput("categorize", h3("Categorize by"),
                                      choices = c("League","Club"),
                                      selected = "League")
                        ),
@@ -34,8 +35,9 @@ my.ui <- fluidPage(
                        ),
                        mainPanel(
                          htmlOutput("playerSummary")
-                       ),
-                       tabPanel("Summary", textOutput("summary"))
-              )
+                       )
+                       
+              ),
+              tabPanel("Summary", textOutput("summary"))
   )
 )

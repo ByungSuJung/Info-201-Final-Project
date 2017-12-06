@@ -14,6 +14,7 @@ raw.numerical.col.names <- soccer.data %>%
   select_if(is.numeric) %>%
   colnames()
 
+# Remove unused data
 numeric.col.names <- raw.numerical.col.names[-c(1,2,8,14)]
 
 
@@ -49,11 +50,6 @@ shinyServer(function(input, output) {
              xaxis = list(title = input$xaxis),
              yaxis = list(title = input$yaxis)
       )
-  })
- 
-  output$click <- renderPrint({
-    d <- event_data ("plotly_click")
-    if (is.null(d)) "Click on the graph to display a photo of a player" else d
   })
   
   output$playerSummary <- renderText({

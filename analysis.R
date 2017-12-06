@@ -8,7 +8,6 @@ library(plotly)
 # Setting working directory
 soccer.data <- read.csv("Data/complete.csv", stringsAsFactors = FALSE, encoding = "UTF-8")
 
-
 # Function for finding leagues
 Find2016LeagueData <- function(league.teams, not.current.teams){
   full.league <- filter(soccer.data, club %in% league.teams) %>% 
