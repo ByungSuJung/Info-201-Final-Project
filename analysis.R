@@ -3,11 +3,8 @@
 library(dplyr)
 library(tidyr)
 library(plotly)
-library(rvest)
-library(DT)
 
 # Setting working directory
-setwd("~/Info-201-Final-Project")
 soccer.data <- read.csv("Data/complete.csv", stringsAsFactors = FALSE, encoding = "UTF-8")
 
 

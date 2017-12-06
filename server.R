@@ -32,21 +32,12 @@ soccer.data <- plyr::rename(soccer.data, c("club"="Club", "age"="Age", "league"=
                                "ldm"="Left Defensive Midfielder", "lcb"="Left Center Back", "gk"="Goalkeeper"))
 
 # Name of positions
-<<<<<<< HEAD
 positions <- select(raw.data, contains("prefers_")) %>%
   colnames()
 
 # Column names with numerical data in raw.data
 raw.numerical.col.names <- raw.data %>%
   select_if(is.numeric) %>%
-=======
-positions <- select(soccer.data, contains("prefers_")) %>% 
-  colnames()
-
-# Column names with numerical data in raw.data
-raw.numerical.col.names <- soccer.data %>% 
-  select_if(is.numeric) %>% 
->>>>>>> 743208eded8abe7a0f169bd4dac65953e6342d2e
   colnames()
 
 numeric.col.names <- raw.numerical.col.names[-c(1,2,8,14)]
@@ -57,15 +48,9 @@ shinyServer(function(input, output) {
   output$playerPlot <- renderPlotly({
 
     # Filter the FIFA 2018 player data by overall
-<<<<<<< HEAD
     filtered.data <-  filter(raw.data, Overall >= as.numeric(input$Overall))
 
     # Create Linear Regression
-=======
-    filtered.data <-  filter(soccer.data, Overall >= as.numeric(input$Overall))
-    
-    # Create Linear Regression 
->>>>>>> 743208eded8abe7a0f169bd4dac65953e6342d2e
     fit <- lm(filtered.data, formula = get(input$yaxis) ~ get(input$xaxis))
 
     output$summary <- renderText({
@@ -91,12 +76,5 @@ shinyServer(function(input, output) {
              yaxis = list(title = input$yaxis)
       )
   })
-<<<<<<< HEAD
 
 })
-=======
-  output$teamPlot <- renderPlotly({
-    
-  })
-})
->>>>>>> 743208eded8abe7a0f169bd4dac65953e6342d2e

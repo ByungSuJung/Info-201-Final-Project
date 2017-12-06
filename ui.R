@@ -34,23 +34,5 @@ my.ui <- navbarPage(
                     selected = "League")
         
       )
-    ),
-    tabPanel("Teams",
-      mainPanel(
-             p("Use this plot to measure two variables of your choosing from the FIFA 18 player database"),
-             plotlyOutput("teamOutput"),
-             textOutput("summary")
-      ),
-      sidebarPanel(
-        width = 2,
-        selectInput("Leagues", "Select the League you want to look at",
-                    choices = league.choices,
-                    selected = "English Premier League"),
-        selectInput("xaxis", "Select X-axis",
-                    choices = numeric.col.names,
-                    selected = "Age"),
-        selectInput("yaxis", "Select Y-axis",
-                    choices = numeric.col.names,
-                    selected = "Wage(EUR)")
-      )
+    )
 )
