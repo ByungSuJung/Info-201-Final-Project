@@ -12,8 +12,8 @@ my.ui <- navbarPage(
         p("Use this plot to measure two variables of your choosing from the FIFA 18 player database"),
         plotlyOutput("playerPlot"),
         
-        textOutput("summary")
-        
+        textOutput("summary"),
+        verbatimTextOutput("click")
       ),
     
       sidebarPanel(

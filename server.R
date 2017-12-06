@@ -50,5 +50,9 @@ shinyServer(function(input, output) {
              yaxis = list(title = input$yaxis)
       )
   })
-
+  output$click <- renderPrint({
+    d <- event_data ("plotly_click")
+    if (is.null(d)) "Click on the graph to display a photo of a player" else d
+  })
+  
 })

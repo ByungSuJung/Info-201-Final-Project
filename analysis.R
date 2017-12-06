@@ -89,8 +89,7 @@ new.column.names <- c("Clubs","Number of Players", "Median Overall Rating", "Med
 colnames(all.leagues) <- new.column.names
 
 ## Leagues
-league.choices <- c("English Premier League","USA Major League Soccer","French Ligue 1","Italian Serie A","German Bundesliga",
-                    "Spanish Primera División","Mexican Liga MX")
+league.choices <- all.leagues$clubs
 
 ## Y Axis
 teams.y.axis <- c("Win Percentage", "Loss Percentage", "Draws", "Losses", "Goals.For", "Goals.Against", "Goal.Difference", "Points")
