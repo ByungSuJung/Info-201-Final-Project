@@ -1,9 +1,9 @@
-library(shiny)  
+library(shiny)
 
 source("server.R")
 
 my.ui <- fluidPage(
-  
+
   tabsetPanel(type = "tabs",
               tabPanel("Plot", fluid = TRUE,
                        sidebarPanel(
@@ -11,11 +11,11 @@ my.ui <- fluidPage(
                          selectInput("Overall", "Select minimum overall rating of the players",
                                      choices = list("90","80","70","60"),
                                      selected = "90"),
-                         
+
                          selectInput("xaxis", "Select X-axis",
                                      choices = numeric.col.names,
                                      selected = "Age"),
-                         
+
                          selectInput("yaxis", "Select Y-axis",
                                      choices = numeric.col.names,
                                      selected = "Wage(EUR)"),
@@ -29,8 +29,8 @@ my.ui <- fluidPage(
               tabPanel("Players", fluid = TRUE,
                        sidebarPanel(
                          width = 2,
-                         selectizeInput("Player", "Select Player", choices = soccer.data$full_name, selected = NULL, multiple = FALSE,
-                                        options = NULL)
+                         selectizeInput("Player", "Select Player", choices = c(soccer.data$full_name), selected = NULL, multiple = FALSE,
+                                        options = list(placeholder = 'Search for Player'))
                        ),
                        mainPanel(
                          htmlOutput("playerSummary")
@@ -43,11 +43,11 @@ my.ui <- fluidPage(
                          selectInput("League", "Select the league you want to view",
                                      choices = league.choices,
                                      selected = "English Premier League"),
-                         
+
                          selectInput("league.xaxis", "Select X-axis",
                                      choices = teams.x.axis,
                                      selected = "Median Overall Rating"),
-                         
+
                          selectInput("league.yaxis", "Select Y-axis",
                                      choices = teams.y.axis,
                                      selected = "Win Percentage")
@@ -56,6 +56,6 @@ my.ui <- fluidPage(
                          plotlyOutput("leaguePlot")
                        )
                )
-                       
+
   )
 )

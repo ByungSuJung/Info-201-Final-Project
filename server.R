@@ -57,7 +57,11 @@ shinyServer(function(input, output) {
   })
   
   output$playerSummary <- renderText({
-    c('<img src="', soccer.data[soccer.data$full_name == input$Player, ]$photo, '">')
+    c('<h1>', input$Player, '</h1>',
+      '<p>',
+      '<img src="', soccer.data[soccer.data$full_name == input$Player, ]$photo, '">', '<br>',
+      
+      '</p>')
   })
   
   output$leaguePlot <- renderPlotly({
