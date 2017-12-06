@@ -36,6 +36,26 @@ my.ui <- fluidPage(
                          htmlOutput("playerSummary")
                        ),
                        tabPanel("Summary", textOutput("summary"))
-              )
+              ),
+              tabPanel("Leagues", fluid = TRUE,
+                       sidebarPanel(
+                         width = 2,
+                         selectInput("League", "Select the league you want to view",
+                                     choices = league.choices,
+                                     selected = "English Premier League"),
+                         
+                         selectInput("league.xaxis", "Select X-axis",
+                                     choices = teams.x.axis,
+                                     selected = "Median Overall Rating"),
+                         
+                         selectInput("league.yaxis", "Select Y-axis",
+                                     choices = teams.y.axis,
+                                     selected = "Win Percentage")
+                         ),
+                       mainPanel(
+                         plotlyOutput("leaguePlot")
+                       )
+               )
+                       
   )
 )

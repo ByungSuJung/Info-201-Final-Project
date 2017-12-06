@@ -8,13 +8,14 @@ library(plotly)
 # Setting working directory
 soccer.data <- read.csv("Data/complete.csv", stringsAsFactors = FALSE, encoding = "UTF-8")
 
-
 # Function for finding leagues
 Find2016LeagueData <- function(league.teams, not.current.teams){
-  full.league <- filter(soccer.data, club %in% league.teams) %>% 
-    group_by(club) %>% summarize(amount.players = n(), median.overall = median(overall), median.potential = median(potential), 
+  full.league <- filter(soccer.data, club %in% league.teams)
+  full.league.name <- as.character(unique(full.league$league))
+  full.league <- group_by(full.league, club) %>% summarize(amount.players = n(), median.overall = median(overall), median.potential = median(potential), 
                                  median.physical = median(phy), average.int.rep = mean(international_reputation), median.agility = median(agility),
                                  median.aggression = median(aggression), median.stamina = median(stamina), median.composure = median(composure))
+  full.league$league <- full.league.name
   last.season.full.league <- full.league[!full.league$club %in% not.current.teams,]
   return (last.season.full.league)
 }
@@ -25,6 +26,7 @@ britain.wins <- read.csv("Data/premier2016-2017.csv", stringsAsFactors = FALSE)
 britain.teams <- britain.wins$club
 britain.last.season <- Find2016LeagueData(britain.teams, not.current.british.teams)
 britain.full <- left_join(britain.last.season, britain.wins)
+
 
 # USA
 not.current.usa.teams <- c("Minnesota United","Atlanta United FC")
@@ -79,20 +81,20 @@ bri.usa.spa.mex <- rbind(britain.usa, spain.mexico)
 all.leagues <- rbind(bri.usa.spa.mex, fre.ger.ita)
 
 ## Turning wins and losses to percentages
-all.leagues <- mutate(all.leagues, percent.win = Wins/Games.Played) 
-all.leagues <- mutate(all.leagues, percent.loss = Losses/Games.Played)
+all.leagues <- mutate(all.leagues, percent.win = Wins/Games.Played*100) 
+all.leagues <- mutate(all.leagues, percent.loss = Losses/Games.Played*100)
 
 ## Changing column names for all graphs
 new.column.names <- c("Clubs","Number of Players", "Median Overall Rating", "Median Potential Rating", "Median Physical Rating", "Average International Reputation Rating",
-                      "Median Agility Rating", "Median Aggression Rating", "Median Stamina Rating", "Median Composure Rating", "Games Played", "Wins","Draws",
+                      "Median Agility Rating", "Median Aggression Rating", "Median Stamina Rating", "Median Composure Rating", "League", "Games Played", "Wins","Draws",
                       "Losses", "Goals For", "Goals Against", "Difference in Goals", "Total Points Scored", "Win Percentage", "Loss Percentage")
 colnames(all.leagues) <- new.column.names
 
 ## Leagues
-league.choices <- all.leagues$clubs
+league.choices <- unique(all.leagues$League)
 
 ## Y Axis
-teams.y.axis <- c("Win Percentage", "Loss Percentage", "Draws", "Losses", "Goals.For", "Goals.Against", "Goal.Difference", "Points")
+teams.y.axis <- c("Win Percentage", "Loss Percentage", "Goals For", "Goals Against", "Difference in Goals", "Total Points Scored")
 
 ## X Axis
 teams.x.axis <- c("Median Overall Rating", "Median Potential Rating", "Median Physical Rating", "Average International Reputation Rating",
@@ -123,3 +125,8 @@ soccer.data <- plyr::rename(soccer.data, c("club"="Club", "age"="Age", "league"=
                                            "cdm"="Center Defensive Midfielder", "cb"="Center Back", "lb"="Left Back", "lwb"="Left Wing Back",
                                            "ls"="Left Striker", "lf"="Left Forward", "lam"="Left Attacking Midfielder", "lcm"="Left Center Midfielder",
                                            "ldm"="Left Defensive Midfielder", "lcb"="Left Center Back", "gk"="Goalkeeper"))
+
+rm(list = ls()[grep(".last",ls())])
+rm(list = ls()[grep(".wins",ls())])
+rm(list = ls()[grep("not.",ls())])
+rm(list = ls()[grep(".teams",ls())])
