@@ -83,7 +83,7 @@ new.column.names <- c("Clubs","Number of Players", "Median Overall Rating", "Med
 colnames(all.leagues) <- new.column.names
 
 ## Leagues
-league.choices <- unique(all.leagues$League)
+league.choices <- c("All",unique(all.leagues$League))
 
 ## Y Axis
 teams.y.axis <- c("Win Percentage", "Loss Percentage", "Goals For", "Goals Against", "Difference in Goals", "Total Points Scored")

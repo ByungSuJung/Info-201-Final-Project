@@ -65,9 +65,13 @@ shinyServer(function(input, output) {
   })
   
   output$leaguePlot <- renderPlotly({
-    # Filter the FIFA 2018 team data by league
-    league.filtered.data <-  filter(all.leagues, League == input$League)
     
+    # Filter the FIFA 2018 team data by league
+    if(input$League == "All"){
+      league.filtered.data <- all.leagues
+    } else {
+      league.filtered.data <-  filter(all.leagues, League == input$League)
+    }
     # Create Linear Regression
     league.fit <- lm(league.filtered.data, formula = get(input$league.yaxis) ~ get(input$league.xaxis))
     
