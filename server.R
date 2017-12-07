@@ -58,7 +58,7 @@ shinyServer(function(input, output) {
     "Sprint speed vs Wage/Value. If you run faster, you get paid more.",
     "International Reputation vs Wage shows that international fame is tied to how much a player is paid.",
     "Age vs. Potential shows that soccer is more of a younger man's sport.",
-    "Strength and Weight shows users the strongest, heaviest players like Adebayo Akinfenwa that perform decently in soccer.",
+    "Strength and Weight shows users the strongest, heaviest players like Adebayo Akinfenwa that perform decently in their soccer league",
     "Strength and Height shows users that there are very tall people who may not be as strong as one would expect.", sep = "<br/>"
     ))
   })
