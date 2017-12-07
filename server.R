@@ -1,7 +1,7 @@
 library(shiny)
 library(plyr)
 library(dplyr)
-
+library(rsconnect)
 library(plotly)
 source("analysis.R")
 
@@ -96,7 +96,7 @@ shinyServer(function(input, output) {
     } else {
       c('<h1>', input$Player, '</h1>',
         '<p>',
-        '<img src="', soccer.data[soccer.data$full_name == input$Player, ]$photo, ' width = 150 height = 200">', '<br>',
+        '<img src="', soccer.data[soccer.data$full_name == input$Player, ]$photo, '">', '<br>',
         '<img src="', soccer.data[soccer.data$full_name == input$Player, ]$club_logo, '">', soccer.data[soccer.data$full_name == input$Player, ]$Club, '<br>',
         soccer.data[soccer.data$full_name == input$Player, ]$Age, 'years old', '<br>',
         'Overall rating: ', soccer.data[soccer.data$full_name == input$Player, ]$Overall, '<br>',
