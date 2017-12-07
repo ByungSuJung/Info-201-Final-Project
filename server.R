@@ -53,7 +53,39 @@ shinyServer(function(input, output) {
   })
   
   output$playerSummary <- renderText({
-    c('<img src="', soccer.data[soccer.data$full_name == input$Player, ]$photo, '">')
+    c('<h1>', input$Player, '</h1>',
+      '<p>',
+      '<img src="', soccer.data[soccer.data$full_name == input$Player, ]$photo, '">', '<br>',
+      
+      '</p>')
   })
   
+  output$leaguePlot <- renderPlotly({
+    # Filter the FIFA 2018 team data by league
+    league.filtered.data <-  filter(all.leagues, League == input$League)
+    
+    # Create Linear Regression
+    league.fit <- lm(league.filtered.data, formula = get(input$league.yaxis) ~ get(input$league.xaxis))
+    
+    output$league.summary <- renderText({
+      return(paste0("Slope : ", round(league.fit$coefficients[[2]], 3)))
+    })
+    
+    # Draw scatter plot
+    plot_ly(data = league.filtered.data,
+            type = 'scatter',
+            mode = 'markers',
+            x = ~get(input$league.xaxis),
+            y = ~get(input$league.yaxis),
+            color = ~league.filtered.data$Clubs,
+            text = ~league.filtered.data$Clubs
+            ) %>% 
+      
+      add_trace(data = league.filtered.data, x = ~get(input$league.xaxis), y = ~fitted(league.fit), mode = 'lines', color = NULL, name = "Linear Regression") %>% 
+      
+      layout(title = paste0(input$league.xaxis, " VS. ", input$league.yaxis),
+             xaxis = list(title = input$league.xaxis),
+             yaxis = list(title = input$league.yaxis)
+      )
+  })
 })
