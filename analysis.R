@@ -79,14 +79,14 @@ all.leagues <- mutate(all.leagues, percent.loss = Losses/Games.Played*100)
 ## Changing column names for all graphs
 new.column.names <- c("Clubs","Number of Players", "Median Overall Rating", "Median Potential Rating", "Median Physical Rating", "Average International Reputation Rating",
                       "Median Agility Rating", "Median Aggression Rating", "Median Stamina Rating", "Median Composure Rating", "League", "Games Played", "Wins","Draws",
-                      "Losses", "Goals For", "Goals Against", "Difference in Goals", "Total Points Scored", "Win Percentage", "Loss Percentage")
+                      "Losses", "Goals For", "Goals Against", "Difference in Goals", "Points for Standings", "Win Percentage", "Loss Percentage")
 colnames(all.leagues) <- new.column.names
 
 ## Leagues
 league.choices <- c("All",unique(all.leagues$League))
 
 ## Y Axis
-teams.y.axis <- c("Win Percentage", "Loss Percentage", "Goals For", "Goals Against", "Difference in Goals", "Total Points Scored")
+teams.y.axis <- c("Win Percentage", "Loss Percentage", "Goals For", "Goals Against", "Difference in Goals", "Points for Standings")
 
 ## X Axis
 teams.x.axis <- c("Median Overall Rating", "Median Potential Rating", "Median Physical Rating", "Average International Reputation Rating",
