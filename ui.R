@@ -8,7 +8,7 @@ my.ui <- fluidPage(
               tabPanel("Plot", fluid = TRUE,
                        sidebarPanel(
                          width = 3,
-                         sliderInput("Overall", label = h3("Overall"), min = 0,
+                         sliderInput("Overall", label = h3("Overall Stat"), min = 0,
                                      max = 100, value = 90),
 
 
@@ -23,24 +23,30 @@ my.ui <- fluidPage(
                          selectInput("categorize", h3("Categorize by"),
                                      choices = c("League","Club"),
                                      selected = "League")
+
                        ),
+
                        mainPanel(
-                         plotlyOutput("playerPlot"))
+
+                         plotlyOutput("playerPlot"),
+                         htmlOutput("correlation"),
+                         htmlOutput("player_selected_var") )
+
+
+
               ),
               tabPanel("Players", fluid = TRUE,
                        sidebarPanel(
                          width = 2,
-                         selectizeInput("Player", "Select Player", choices = c(soccer.data$full_name), selected = NULL, multiple = FALSE,
+                         selectizeInput("Player", "Select Player", choices = c("", soccer.data$full_name), selected = "", multiple = FALSE,
                                         options = list(placeholder = 'Search for Player'))
                        ),
                        mainPanel(
                          htmlOutput("playerSummary")
+
                        )
               ),
-              tabPanel("Summary", textOutput("summary")
-              
-              ),
-              
+
               tabPanel("Leagues", fluid = TRUE,
                        sidebarPanel(
                          width = 2,
@@ -56,8 +62,10 @@ my.ui <- fluidPage(
                                      choices = teams.y.axis,
                                      selected = "Win Percentage")
                          ),
+
                        mainPanel(
-                         plotlyOutput("leaguePlot")
+                         plotlyOutput("leaguePlot"),
+                         htmlOutput("league_selected_var")
                        )
                )
 

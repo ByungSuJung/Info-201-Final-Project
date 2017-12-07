@@ -9,65 +9,57 @@ library(plotly)
 soccer.data <- read.csv("Data/complete.csv", stringsAsFactors = FALSE, encoding = "UTF-8")
 
 # Function for finding leagues
-Find2016LeagueData <- function(league.teams, not.current.teams){
+Find2016LeagueData <- function(league.teams){
   full.league <- filter(soccer.data, club %in% league.teams)
   full.league.name <- as.character(unique(full.league$league))
   full.league <- group_by(full.league, club) %>% summarize(amount.players = n(), median.overall = median(overall), median.potential = median(potential), 
                                  median.physical = median(phy), average.int.rep = mean(international_reputation), median.agility = median(agility),
                                  median.aggression = median(aggression), median.stamina = median(stamina), median.composure = median(composure))
   full.league$league <- full.league.name
-  last.season.full.league <- full.league[!full.league$club %in% not.current.teams,]
-  return (last.season.full.league)
+  return (full.league)
 }
 
 # Britain
-not.current.british.teams <- c("Brighton & Hove Albion", "Huddersfield Town", "Newcastle United")
 britain.wins <- read.csv("Data/premier2016-2017.csv", stringsAsFactors = FALSE)
 britain.teams <- britain.wins$club
-britain.last.season <- Find2016LeagueData(britain.teams, not.current.british.teams)
+britain.last.season <- Find2016LeagueData(britain.teams)
 britain.full <- left_join(britain.last.season, britain.wins)
 
 
 # USA
-not.current.usa.teams <- c("Minnesota United","Atlanta United FC")
-usa.wins <- read.csv("Data/MLS2016-2017.csv", stringsAsFactors = FALSE)
+usa.wins <- read.csv("Data/MLS2017-2018.csv", stringsAsFactors = FALSE)
 usa.teams <- usa.wins$club
-usa.last.season <- Find2016LeagueData(usa.teams, not.current.usa.teams)
+usa.last.season <- Find2016LeagueData(usa.teams)
 usa.full <- left_join(usa.last.season, usa.wins)
 
 # France
-not.current.french.teams <- c("Amiens SC Football", "ES Troyes AC", "RC Strasbourg")
 french.wins <- read.csv("Data/ligue12016-2017.csv", stringsAsFactors = FALSE)
 french.teams <- french.wins$club
-french.last.season <- Find2016LeagueData(french.teams, not.current.french.teams)
+french.last.season <- Find2016LeagueData(french.teams)
 french.full <- left_join(french.last.season, french.wins)
 
 # Italy
-not.current.italy.teams <- c("Benevento Calcio", "Ferrara (SPAL)", "Hellas Verona")
 italy.wins <- read.csv("Data/serieA2016-2017.csv", stringsAsFactors = FALSE)
 italy.teams <- italy.wins$club
-italy.last.season <- Find2016LeagueData(italy.teams, not.current.italy.teams)
+italy.last.season <- Find2016LeagueData(italy.teams)
 italy.full <- left_join(italy.last.season, italy.wins)
 
 # German
-not.current.german.teams <- c("Hannover 96", "VfB Stuttgart")
 germany.wins <- read.csv("Data/bundesliga2016-2017.csv", stringsAsFactors = FALSE)
 germany.teams <- germany.wins$club
-germany.last.season <- Find2016LeagueData(germany.teams, not.current.german.teams)
+germany.last.season <- Find2016LeagueData(germany.teams)
 germany.full <- left_join(germany.last.season, germany.wins)
 
 # Spain
-not.current.spain.teams <- c("Getafe CF", "Girona CF", "Levante UD")
 spain.wins <- read.csv("Data/laliga2016-2017.csv", stringsAsFactors = FALSE)
 spain.teams <- spain.wins$club
-spain.last.season <- Find2016LeagueData(spain.teams, not.current.spain.teams)
+spain.last.season <- Find2016LeagueData(spain.teams)
 spain.full <- left_join(spain.last.season, spain.wins)
 
 # Mexico
-not.current.mexico.teams <- c("Lobos de la BUAP")
 mexico.wins <- read.csv("Data/ligaMXclausura2016-2017.csv", stringsAsFactors = FALSE)
 mexico.teams <- mexico.wins$club
-mexico.last.season <- Find2016LeagueData(mexico.teams, not.current.mexico.teams)
+mexico.last.season <- Find2016LeagueData(mexico.teams)
 mexico.full <- left_join(mexico.last.season, mexico.wins)
 
 # Prep for graphs
@@ -87,14 +79,14 @@ all.leagues <- mutate(all.leagues, percent.loss = Losses/Games.Played*100)
 ## Changing column names for all graphs
 new.column.names <- c("Clubs","Number of Players", "Median Overall Rating", "Median Potential Rating", "Median Physical Rating", "Average International Reputation Rating",
                       "Median Agility Rating", "Median Aggression Rating", "Median Stamina Rating", "Median Composure Rating", "League", "Games Played", "Wins","Draws",
-                      "Losses", "Goals For", "Goals Against", "Difference in Goals", "Total Points Scored", "Win Percentage", "Loss Percentage")
+                      "Losses", "Goals For", "Goals Against", "Difference in Goals", "Points for Standings", "Win Percentage", "Loss Percentage")
 colnames(all.leagues) <- new.column.names
 
 ## Leagues
-league.choices <- unique(all.leagues$League)
+league.choices <- c("All",unique(all.leagues$League))
 
 ## Y Axis
-teams.y.axis <- c("Win Percentage", "Loss Percentage", "Goals For", "Goals Against", "Difference in Goals", "Total Points Scored")
+teams.y.axis <- c("Win Percentage", "Loss Percentage", "Goals For", "Goals Against", "Difference in Goals", "Points for Standings")
 
 ## X Axis
 teams.x.axis <- c("Median Overall Rating", "Median Potential Rating", "Median Physical Rating", "Average International Reputation Rating",
