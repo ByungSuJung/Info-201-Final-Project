@@ -57,11 +57,21 @@ shinyServer(function(input, output) {
   })
   
   output$playerSummary <- renderText({
-    c('<h1>', input$Player, '</h1>',
-      '<p>',
-      '<img src="', soccer.data[soccer.data$full_name == input$Player, ]$photo, '">', '<br>',
-      
-      '</p>')
+    if (input$Player == "") {
+      '<h1> Pick a player to see detailed info </h1>'
+    } else {
+      c('<h1>', input$Player, '</h1>',
+        '<p>',
+        '<img src="', soccer.data[soccer.data$full_name == input$Player, ]$photo, '">', '<br>',
+        '<img src="', soccer.data[soccer.data$full_name == input$Player, ]$club_logo, '">', soccer.data[soccer.data$full_name == input$Player, ]$Club, '<br>',
+        soccer.data[soccer.data$full_name == input$Player, ]$Age, 'years old', '<br>',
+        'Overall rating: ', soccer.data[soccer.data$full_name == input$Player, ]$Overall, '<br>',
+        'Height (cm): ', soccer.data[soccer.data$full_name == input$Player, ][[10]], '<br>',
+        'Weight (kg): ', soccer.data[soccer.data$full_name == input$Player, ][[11]], '<br>',
+        'Wage (EUR): ', soccer.data[soccer.data$full_name == input$Player, ][[17]], '<br>',
+        'Preferred foot: ', soccer.data[soccer.data$full_name == input$Player, ]$preferred_foot, '<br>', 
+        '</p>')
+    }
   })
   
   output$leaguePlot <- renderPlotly({

@@ -29,13 +29,12 @@ my.ui <- fluidPage(
               tabPanel("Players", fluid = TRUE,
                        sidebarPanel(
                          width = 2,
-                         selectizeInput("Player", "Select Player", choices = c(soccer.data$full_name), selected = NULL, multiple = FALSE,
+                         selectizeInput("Player", "Select Player", choices = c("", soccer.data$full_name), selected = "", multiple = FALSE,
                                         options = list(placeholder = 'Search for Player'))
                        ),
                        mainPanel(
                          htmlOutput("playerSummary")
-                       ),
-                       tabPanel("Summary", textOutput("summary"))
+                       )
               ),
               tabPanel("Leagues", fluid = TRUE,
                        sidebarPanel(
