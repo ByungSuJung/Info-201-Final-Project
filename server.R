@@ -52,6 +52,10 @@ shinyServer(function(input, output) {
   })
  
   
+  output$selected_var <- renderText({ 
+    "You have selected this"
+  })
+  
   output$playerSummary <- renderText({
     if (input$Player == "") {
       '<h1> Pick a player to see detailed info </h1>'

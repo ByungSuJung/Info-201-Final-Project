@@ -22,9 +22,16 @@ my.ui <- fluidPage(
                          selectInput("categorize", "Categorize by",
                                      choices = c("League","Club"),
                                      selected = "League")
+                        
                        ),
+                       
                        mainPanel(
-                         plotlyOutput("playerPlot"))
+                         
+                         plotlyOutput("playerPlot"),
+                         textOutput("selected_var") )
+                       
+                      
+                       
               ),
               tabPanel("Players", fluid = TRUE,
                        sidebarPanel(
@@ -34,6 +41,7 @@ my.ui <- fluidPage(
                        ),
                        mainPanel(
                          htmlOutput("playerSummary")
+                         
                        )
               ),
               tabPanel("Leagues", fluid = TRUE,
@@ -51,6 +59,7 @@ my.ui <- fluidPage(
                                      choices = teams.y.axis,
                                      selected = "Win Percentage")
                          ),
+                      
                        mainPanel(
                          plotlyOutput("leaguePlot")
                        )
