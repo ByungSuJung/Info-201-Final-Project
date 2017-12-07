@@ -120,5 +120,5 @@ soccer.data <- plyr::rename(soccer.data, c("club"="Club", "age"="Age", "league"=
 
 rm(list = ls()[grep(".last",ls())])
 rm(list = ls()[grep(".wins",ls())])
-#rm(list = ls()[grep("not.",ls())])
-#rm(list = ls()[grep(".teams",ls())])
+rm(list = ls()[grep("not.",ls())])
+rm(list = ls()[grep(".teams",ls())])

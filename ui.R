@@ -28,7 +28,7 @@ my.ui <- fluidPage(
                        mainPanel(
                          
                          plotlyOutput("playerPlot"),
-                         textOutput("selected_var") )
+                         htmlOutput("player_selected_var") )
                        
                       
                        
@@ -61,7 +61,8 @@ my.ui <- fluidPage(
                          ),
                       
                        mainPanel(
-                         plotlyOutput("leaguePlot")
+                         plotlyOutput("leaguePlot"),
+                         htmlOutput("league_selected_var")
                        )
                )
 
